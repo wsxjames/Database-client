@@ -34,6 +34,11 @@ export default {
           id: 3,
           text: 'Profile',
           page:'/profile'
+        },
+        {
+          id: 4,
+          text:'Logout',
+          page:'/logout'
         }
       ]
     }

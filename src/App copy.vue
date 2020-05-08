@@ -47,6 +47,10 @@ export default {
           }).bind(this)
       )
     }
+    // getSchoolData(){
+    //   console.log("test")
+    //   SchoolService.getSchools()
+    // }
   }
 }
 </script>

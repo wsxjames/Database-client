@@ -5,12 +5,25 @@
     <input type="radio" id="maleCheckBox" value="male" v-model="checkedGender">
     <label for="maleCheckBox">Male</label>
     <input type="radio" id="femaleCheckBox" value="female" v-model="checkedGender">
-    <label for="femaleCheckBox">FeMale</label>
+    <label for="femaleCheckBox">Female</label>
+    <input type="radio" id="noPreferCheckBox" value="" v-model="checkedGender">
+    <label for="noPreferCheckBox">Not preferred</label>
+    <!-- <p>First applicant in university?</p>
+    <input type="checkbox" id="checkbox" v-model="isFirstApplicant"> -->
     <p>High School</p>
     <select v-model="selectedHighSchool">
       <option disabled value="">Please select one high school</option>
       <option value="">Not preferred</option>
       <option v-bind:key="highSchool.SID" v-for="highSchool in highSchools">{{highSchool.Name}}</option>
+    </select>
+
+    <p>Graduation Year</p>
+    <select v-model="gradYear">
+      <option disabled value="">Please select one graduation year</option>
+      <option value="">Not preferred</option>
+      <option value="2022">2022</option>
+      <option value="2021">2021</option>
+      <option value="2020">2020</option>
     </select>
 
     <p>GPA:</p>
@@ -21,7 +34,7 @@
     
     <p>Standarized Test:</p>
     <input v-model="stdTestScore" placeholder="edit me">
-    <p v-if="!isValidScore(stdTestScore)" class="warning">Please enter a number in [0,100]</p>
+    <p v-if="!isValidScore(stdTestScore)" class="warning">Please enter an integer in [0,100]</p>
     <select v-model="selectedStdTest">
       <option disabled value="">Please select one standarized test type</option>
       <option value="">Not preferred</option>
@@ -34,20 +47,21 @@
       <option value="">Not preferred</option>
       <option v-bind:key="activity.AID" v-for="activity in activities">{{activity.Name}}</option>
     </select>
-     <input v-if="selectedActivityType === 'Competition'" v-model="rank" placeholder="edit me">
-      <p v-if="!isValidRank(rank)" class="warning">Please enter an integer greater than 0</p>
-    <button v-if="isValidGPA(GPA)&&isValidRank(rank)&&isValidScore(stdTestScore)" v-on:click="getSchoolData(GPA)">Submit</button>
+    <button v-if="isValidGPA(GPA)&&isValidScore(stdTestScore)" v-on:click="getSchoolData(checkedGender, isFirstApplicant, gradYear, GPA,selectedHighSchool, selectedStdTest, stdTestScore, testLocation, testCity, selectedActivityType, rank)">Submit</button>
     <div v-else>
-      <button v-on:click="getSchoolData(GPA)" disabled=1>You can't submit</button>
+      <button v-on:click="getSchoolData(checkedGender, isFirstApplicant, gradYear, GPA,selectedHighSchool, selectedStdTest, stdTestScore, testLocation, testCity, selectedActivityType, rank)" disabled=1>You can't submit</button>
       <p class="warning">Please follow instructions</p>
     </div>
+    <p>The following are your recommended target schools:</p>
     <Schools v-bind:schools="schools"/>
+    <!-- <p v-if="schools.length=0" class="warning">no result</p> -->
   </div>
 </template>
 
 <script>
 import SchoolService from '../../services/SchoolService'
 import Schools from '../Schools'
+import axios from "axios"
 export default {
   name:'TargetSchool',
   components: {Schools},
@@ -55,13 +69,15 @@ export default {
     return{
       GPA:"",
       checkedGender:"",
+      isFirstApplicant:"",
+      gradYear:"",
       stdTestScore:"",
       activity:"",
       rank:"",
       schools:[],  
       highSchools:[
-        {SID: 1, Name:'QDHS'},
-        {SID: 2, Name:'PYK'}
+        {SID: 1, Name:'HighSchool 1'},
+        {SID: 2, Name:'HighSchool 2'}
       ],
       selectedHighSchool:"",
       stdTests:[
@@ -69,6 +85,8 @@ export default {
         {TID: 2, Name:'SAT'}
       ],
       selectedStdTest:"",
+      testLocation:"",
+      testCity:"",
       activities:[
         {AID: 1, Name:'Volunteer'},
         {AID: 2, Name:'Competition'},
@@ -77,6 +95,16 @@ export default {
       selectedActivityType:"",
       
     }
+  },
+  created(){
+    axios.get("http://localhost:3000/",{ withCredentials: true }).then((response)=>{
+        console.log(response.status)
+        // return "auth"
+    }).catch((error)=>{
+        console.log("err")
+        console.log(error.status)
+        this.$router.push({name:'Login'})
+    })
   },
   computed:{
     validForm:()=>{
@@ -88,8 +116,8 @@ export default {
     this.isNumber()
   },
   methods:{
-    async getSchoolData(GPA){
-      SchoolService.getSchools(GPA).then(
+    async getSchoolData(checkedGender, isFirstApplicant, gradYear, GPA,selectedHighSchool, selectedStdTest, stdTestScore, testLocation, testCity, selectedActivityType, rank){
+      SchoolService.getSchools(checkedGender, isFirstApplicant, gradYear, GPA,selectedHighSchool, selectedStdTest, stdTestScore, testLocation, testCity, selectedActivityType, rank).then(
         (schools=>{
             this.$set(this, "schools", schools);
           }).bind(this)
@@ -101,14 +129,14 @@ export default {
     isValidGPA:(string)=>{
       if(string === "") return true;
       let parsedString=""+parseFloat(string)
-      if(parsedString.length!=string.length) return false;
+      if(parsedString.length!=string.length&&parseFloat(string)!=0&&parseFloat(string)!=1&&parseFloat(string)!=2&&parseFloat(string)!=3&&parseFloat(string)!=4) return false;
       return (parseFloat(string)>=0&&parseFloat(string)<=4)
     },
     isValidScore:(string)=>{
       if(string === "") return true;
-      let parsedString=""+parseFloat(string)
+      let parsedString=""+parseInt(string)
       if(parsedString.length!=string.length) return false;
-      return (parseFloat(string)>=0&&parseFloat(string)<=4)
+      return (parseFloat(string)>=0&&parseFloat(string)<=100)
     },
     isValidRank:(string)=>{
       if(string === "") return true;

@@ -8,10 +8,30 @@
 
 <script>
 import Navigation from './components/Navigation'
+// import AuthService from './services/AuthService'
+import axios from "axios"
 export default {
   name: 'app',
   components: {
     'Navigation': Navigation
+  },
+  create(){
+    // this.getHome()
+  },
+  methods:{
+    // async getHome(){
+    //   AuthService.home().then(result=>console.log(result))
+    // }
+  },
+  created(){
+    axios.get("http://localhost:3000/",{ withCredentials: true }).then((response)=>{
+        console.log(response.status)
+        // return "auth"
+    }).catch((error)=>{
+        console.log("err")
+        console.log(error.status)
+        this.$router.push({name:'Login'})
+    })
   }
 }
 </script>
