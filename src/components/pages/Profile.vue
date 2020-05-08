@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>target school</h1>
+    <h1>Profile</h1>
     <p>Hello {{currentUser}}</p>
     <p>Personal info</p>
     <p>First Name</p>
@@ -20,12 +20,14 @@
 // import AuthService from '../../services/AuthService'
 import ProfileService from '../../services/ProfileService'
 import axios from "axios"
+import Config from '../../config'
 export default {
   name:'Profile',
   data(){
     return{
       currentUser:"",
       profileData:{
+        username:"",
         firstName:"",
         lastName:"",
         password:""
@@ -33,7 +35,7 @@ export default {
     }
   },
   created(){
-    axios.get("http://localhost:3000/",{ withCredentials: true }).then((response)=>{
+    axios.get(Config.URL,{ withCredentials: true }).then((response)=>{
         console.log(response.status)
         // return "auth"
     }).catch((error)=>{
@@ -69,6 +71,7 @@ export default {
           this.$set(this.profileData,"firstName",data[0].FirstName)
           this.$set(this.profileData,"lastName",data[0].LastName)
           this.$set(this.profileData,"password",data[0].Password)
+          this.$set(this.profileData,"username",data[0].Username)
           this.$set(this,"currentUser",data[0].Username)
         }).bind(this)
       )

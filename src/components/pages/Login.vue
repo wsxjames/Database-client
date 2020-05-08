@@ -9,6 +9,7 @@
 
 <script>
 import axios from "axios"
+import Config from '../../config'
 export default {
     name:'Login',
     data(){
@@ -24,7 +25,7 @@ export default {
     },
     methods:{
         login(){
-            axios.post("http://localhost:3000/login", this.loginData,{ withCredentials: true }).then((response) => {
+            axios.post(Config.URL+"login", this.loginData,{ withCredentials: true }).then((response) => {
                 console.log(response)
                 this.$router.push({name:'Profile'});
             })

@@ -4,9 +4,10 @@
 
 <script>
 import axios from "axios"
+import Config from "../../config"
 export default {
     created(){
-    axios.get("http://localhost:3000/logout",{ withCredentials: true }).then(()=>{
+    axios.get(Config.URL+"logout",{ withCredentials: true }).then(()=>{
         this.$router.push({name:'Login'})
     }).catch((error)=>{
         console.log("err")

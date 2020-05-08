@@ -9,6 +9,7 @@
 <script>
 import Navigation from './components/Navigation'
 // import AuthService from './services/AuthService'
+import Config from './config'
 import axios from "axios"
 export default {
   name: 'app',
@@ -24,7 +25,8 @@ export default {
     // }
   },
   created(){
-    axios.get("http://localhost:3000/",{ withCredentials: true }).then((response)=>{
+    axios.get(Config.URL
+    ,{ withCredentials: true }).then((response)=>{
         console.log(response.status)
         // return "auth"
     }).catch((error)=>{

@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import Config from "../config"
 
 export default {
   async home() {
@@ -16,10 +16,12 @@ export default {
     
   },
   async updateData(profileData) {
-   axios.post("http://localhost:3000/updateProfile", profileData,{ withCredentials: true })
+   axios.post(Config.URL
+    +"updateProfile", profileData,{ withCredentials: true })
   },
   async fetchData() {
-    let res=await axios.get("http://localhost:3000/studentprofile",{ withCredentials: true })
+    let res=await axios.get(Config.URL+"studentprofile",{ withCredentials: true })
+    console.log(Config.URL)
     return res.data.recordset
   }
 }

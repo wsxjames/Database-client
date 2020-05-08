@@ -62,6 +62,7 @@
 import SchoolService from '../../services/SchoolService'
 import Schools from '../Schools'
 import axios from "axios"
+import Config from "../../config"
 export default {
   name:'TargetSchool',
   components: {Schools},
@@ -97,7 +98,8 @@ export default {
     }
   },
   created(){
-    axios.get("http://localhost:3000/",{ withCredentials: true }).then((response)=>{
+    console.log("pdoing?")
+    axios.get(Config.URL,{ withCredentials: true }).then((response)=>{
         console.log(response.status)
         // return "auth"
     }).catch((error)=>{
