@@ -1,4 +1,5 @@
 import axios from "axios"
+import Config from "../config"
 // import validate from "validate"
 
 // const constraint={
@@ -13,7 +14,7 @@ export default {
     // let GPANumber=parseFloat(GPA)
     let isFirstApplicantValue=isFirstApplicant?1:0
     // let api="http://localhost:3000/schools?"
-    let api="http://uni-app.csse.rose-hulman.edu/schools?"
+    let api=Config.URL+"schools?"
     if (gender!="") api+="gender="+gender;
     if (isFirstApplicant!="") api+="&isFirstApplicant="+isFirstApplicantValue;
     if (gradYear!="") api+="&gradYear="+gradYear;
@@ -37,7 +38,7 @@ export default {
     //   console.log("fail!!")
     // }
     console.log(api)
-    let res = await axios.get(api);
+    let res = await axios.get(api,{ withCredentials: true });
     console.log(res.data.recordset)
     return res.data.recordset
     
@@ -45,7 +46,12 @@ export default {
     
   },
   async getEventSingle() {
-    let res = await axios.get("http://localhost:5000/" );
+    let res = await axios.get("http://localhost:5000/",{ withCredentials: true }  );
     return res.data;
+  },
+  async getAllUniversities(){
+    let res=await axios.get(Config.URL+"alluniversities",{ withCredentials: true })
+    console.log(res.data.recordset)
+    return res.data.recordset
   }
 }
