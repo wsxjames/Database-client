@@ -72,8 +72,12 @@
       <option value="">Not preferred</option>
       <option v-bind:key="university.SID" v-for="university in universities">{{university.Name}}</option>
     </select> -->
-    <button v-on:click="updateProfile(profileData)">Submit</button>
+    <button v-if="isValidGPA(profileData.GPA)&&isValidScore(profileData.stdGrade)&&isValidEmail(profileData.email)" v-on:click="updateProfile(profileData)">Submit</button>
     <!-- <button v-on:click="console.log(profileData.activityRange)">Test</button> -->
+    <div v-else>
+      <button disabled=1>You can't submit</button>
+      <p class="warning">Please follow instructions</p>
+    </div>
     <br>
     <br>
   </div>
