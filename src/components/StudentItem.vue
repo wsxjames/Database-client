@@ -1,6 +1,6 @@
 <template>
   <div class="StudentItem">
-      <p>GPA: {{student.GPA}}, graduated in {{student.GradYear}}</p>
+      <p>GPA: {{student.GPA}}, graduated in {{student.GradYear}}, date of birth: {{student.DateOfBirth}}, gender: {{student.Gender}}</p>
   </div>
 </template>
 

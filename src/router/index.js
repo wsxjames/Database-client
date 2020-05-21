@@ -7,6 +7,7 @@ import TargetSchool from '@/components/pages/TargetSchool'
 import DreamSchool from '@/components/pages/DreamSchool'
 import Login from '@/components/pages/Login'
 import Logout from '@/components/pages/Logout'
+import Percentage from '@/components/pages/Percentage'
 
 
 Vue.use(Router)
@@ -17,6 +18,11 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile
+    }, 
+    {
+      path: '/percentage',
+      name: 'Percentage',
+      component: Percentage
     }, 
     {
       path: '/targetschool',

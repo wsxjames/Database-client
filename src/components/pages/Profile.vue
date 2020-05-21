@@ -183,7 +183,7 @@ export default {
           this.$set(this.profileData,"gradYear",data[0].GradYear)
           this.$set(this.profileData,"GPA",data[0].GPA)
           this.$set(this.profileData,"stdTestType",data[0].StdTestType)
-          this.$set(this.profileData,"stdGrade",data[0].StdGrade)
+          this.$set(this.profileData,"stdGrade",data[0].StdGrade*100)
           this.$set(this.profileData,"activityName",data[0].ActivityName)
           this.$set(this.profileData,"universityName",data[0].UniversityName)
           // this.$set(this.profileData,"activityStartDate",data[0].ActivityStart)

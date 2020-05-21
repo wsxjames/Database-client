@@ -52,6 +52,16 @@
       <button v-on:click="getSchoolData(checkedGender, isFirstApplicant, gradYear, GPA,selectedHighSchool, selectedStdTest, stdTestScore, testLocation, testCity, selectedActivityType, rank)" disabled=1>You can't submit</button>
       <p class="warning">Please follow instructions</p>
     </div>
+    <h2>You may also view all schools sorted by these factors</h2>
+    <input type="radio" id="gpaCheckBox" value="gpa" v-model="checkedType">
+    <label for="gpaCheckBox">GPA</label>
+    <input type="radio" id="rankingCheckBox" value="ranking" v-model="checkedType">
+    <label for="rankingCheckBox">Ranking</label>
+    <input type="radio" id="accrateCheckBox" value="accrate" v-model="checkedType">
+    <label for="accrateCheckBox">Acceptance Rate</label>
+    <input type="checkbox" id="checkbox" v-model="checkedIsDesc">
+    <label for="checkbox">Descending order?</label>
+    <button v-on:click="getSortedUniversityData(checkedType, checkedIsDesc)">view  all universities</button>
     <p>The following are your recommended target schools:</p>
     <Schools v-bind:schools="schools"/>
     <!-- <p v-if="schools.length=0" class="warning">no result</p> -->
@@ -75,6 +85,8 @@ export default {
       stdTestScore:"",
       activity:"",
       rank:"",
+      checkedType:"gpa",
+      checkedIsDesc:false,
       schools:[],  
       highSchools:[
         {SID: 1, Name:'HighSchool 1'},
@@ -98,7 +110,6 @@ export default {
     }
   },
   created(){
-    console.log("pdoing?")
     axios.get(Config.URL,{ withCredentials: true }).then((response)=>{
         console.log(response.status)
         // return "auth"
@@ -115,11 +126,19 @@ export default {
   },
   create(){
     this.getSchoolData(),
+    this.getSortedUniversityData(),
     this.isNumber()
   },
   methods:{
     async getSchoolData(checkedGender, isFirstApplicant, gradYear, GPA,selectedHighSchool, selectedStdTest, stdTestScore, testLocation, testCity, selectedActivityType, rank){
       SchoolService.getSchools(checkedGender, isFirstApplicant, gradYear, GPA,selectedHighSchool, selectedStdTest, stdTestScore, testLocation, testCity, selectedActivityType, rank).then(
+        (schools=>{
+            this.$set(this, "schools", schools);
+          }).bind(this)
+      )
+    },
+    async getSortedUniversityData(type, isDesc){
+      SchoolService.getSortedUniversities(type, isDesc).then(
         (schools=>{
             this.$set(this, "schools", schools);
           }).bind(this)

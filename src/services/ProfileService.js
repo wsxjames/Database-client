@@ -1,6 +1,6 @@
 import axios from "axios"
 import Config from "../config"
-var oldPassword=''
+// var oldPassword=''
 export default {
   
   async home() {
@@ -17,12 +17,12 @@ export default {
     
   },
   async updateData(profileData) {
-    if (profileData.password=='') profileData.password=oldPassword
+    // if (profileData.password=='') profileData.password=oldPassword
    axios.post(Config.URL+"updateProfile", profileData,{ withCredentials: true })
   },
   async fetchData() {
     let res=await axios.get(Config.URL+"studentprofile",{ withCredentials: true })
-    oldPassword=res.data.recordset[0].Password
+    // oldPassword=res.data.recordset[0].Password
     console.log(Config.URL)
     return res.data.recordset
   }

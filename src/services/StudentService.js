@@ -1,4 +1,5 @@
 import axios from "axios"
+import Config from "../config"
 // import validate from "validate"
 
 // const constraint={
@@ -13,8 +14,8 @@ export default {
     console.log("test="+universityStringTrimmed)
     let universityString=universityStringTrimmed.split(' ').join('+')
     // let api="http://localhost:3000/students?university="+universityString
-    let api="http://uni-app.csse.rose-hulman.edu/students?university="+universityString
-    let res = await axios.get(api);
+    let api=Config.URL+"students?university="+universityString
+    let res = await axios.get(api,{ withCredentials: true});
     console.log(res.data.recordset)
     return res.data.recordset
     

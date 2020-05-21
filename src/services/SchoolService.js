@@ -53,5 +53,16 @@ export default {
     let res=await axios.get(Config.URL+"alluniversities",{ withCredentials: true })
     console.log(res.data.recordset)
     return res.data.recordset
+  },
+  async getSortedUniversities(type, isDesc){
+    let res=await axios.get(Config.URL+"alluniversities?type="+type+"&isDesc="+isDesc,{ withCredentials: true })
+    console.log(res.data.recordset)
+    return res.data.recordset
+  },
+  async getPercentage(studentData){
+
+    let res=await axios.post(Config.URL+"percentage", studentData,{ withCredentials: true })
+    console.log(res.data.recordset)
+    return res.data.recordset
   }
 }
