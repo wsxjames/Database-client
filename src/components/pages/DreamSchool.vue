@@ -1,7 +1,11 @@
 <template>
  <div>
-    <p>Enter your dream school</p>
-    <input v-model="university" placeholder="edit me">
+    <p>Select your dream school</p>
+    <!-- <input v-model="university" placeholder="edit me"> -->
+    <select v-model="university">
+      <option disabled value="">Please select one university</option>
+      <option v-bind:key="u.SID" v-for="u in universities">{{u.Name}}</option>
+    </select>
     <button v-if="university!=''" v-on:click="getStudentData(university)">Submit</button>
     <div v-else>
       <button disabled=1>You can't submit</button>
@@ -15,6 +19,7 @@
 
 <script>
 import StudentService from '../../services/StudentService'
+import SchoolService from '../../services/SchoolService'
 import Students from '../Students'
 export default {
   name: 'DreamSchool',
@@ -22,11 +27,15 @@ export default {
   data(){
     return{
       university:"",
-      students:[]
+      students:[],
+      universities:[]
     }
   },
   create(){
     this.getStudentData()
+  },
+  created(){
+    this.getAllUniversities()
   },
   methods:{
   async getStudentData(university){
@@ -35,7 +44,14 @@ export default {
             this.$set(this, "students", students);
           }).bind(this)
       )
-    }
+    },
+  async getAllUniversities(){
+      SchoolService.getAllUniversities().then(
+        (universities=>{
+            this.$set(this, "universities", universities);
+        }).bind(this)
+      )
+  }
   }
 }
 </script>

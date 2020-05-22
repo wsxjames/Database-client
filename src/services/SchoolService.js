@@ -53,7 +53,12 @@ export default {
     return res.data;
   },
   async getAllUniversities(){
-    let res=await axios.get(Config.URL+"alluniversities",{ withCredentials: true })
+    let res=await axios.get(Config.URL+'getAllUniversities',{ withCredentials: true })
+    console.log(res.data.recordset)
+    return res.data.recordset
+  },
+  async getAllHighSchools(){
+    let res=await axios.get(Config.URL+'getAllHighSchools',{ withCredentials: true })
     console.log(res.data.recordset)
     return res.data.recordset
   },
@@ -67,5 +72,6 @@ export default {
     let res=await axios.post(Config.URL+"percentage", studentData,{ withCredentials: true })
     console.log(res.data.recordset)
     return res.data.recordset
-  }
+  },
+  
 }

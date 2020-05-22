@@ -9,8 +9,8 @@
 <script>
 import Navigation from './components/Navigation'
 // import AuthService from './services/AuthService'
-import Config from './config'
-import axios from "axios"
+// import Config from './config'
+// import axios from "axios"
 export default {
   name: 'app',
   components: {
@@ -24,17 +24,17 @@ export default {
     //   AuthService.home().then(result=>console.log(result))
     // }
   },
-  created(){
-    axios.get(Config.URL
-    ,{ withCredentials: true }).then((response)=>{
-        console.log(response.status)
-        // return "auth"
-    }).catch((error)=>{
-        console.log("err")
-        console.log(error.status)
-        this.$router.push({name:'Login'})
-    })
-  }
+  // created(){
+  //   axios.get(Config.URL
+  //   ,{ withCredentials: true }).then((response)=>{
+  //       console.log(response.status)
+  //       // return "auth"
+  //   }).catch((error)=>{
+  //       console.log("err")
+  //       console.log(error.status)
+  //       this.$router.push({name:'Login'})
+  //   })
+  // }
 }
 </script>
 

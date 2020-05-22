@@ -66,12 +66,12 @@
     <p v-if="!isValidDate(profileData.activityEndDate)" class="warning">Please enter a valid date</p>
     <date-picker v-model="profileData.activityStartDate" type="date"></date-picker> -->
     <h2>University</h2>
-    <input v-model="profileData.universityName" placeholder="edit me">
-    <!-- <select v-model="profileData.universityName">
+    <!-- <input v-model="profileData.universityName" placeholder="edit me"> -->
+    <select v-model="profileData.universityName">
       <option disabled value="">Please select one university</option>
       <option value="">Not preferred</option>
       <option v-bind:key="university.SID" v-for="university in universities">{{university.Name}}</option>
-    </select> -->
+    </select>
     <button v-if="isValidGPA(profileData.GPA)&&isValidScore(profileData.stdGrade)&&isValidEmail(profileData.email)" v-on:click="updateProfile(profileData)">Submit</button>
     <!-- <button v-on:click="console.log(profileData.activityRange)">Test</button> -->
     <div v-else>
@@ -118,13 +118,15 @@ export default {
         universityName:"",
         oldPassword:""
       },
-      highSchools:[
-        {SID: 1, Name:'Academic Magnet High School'},
-        {SID: 2, Name:'Thomas Jefferson High School for Science and Technology'},
-        {SID: 3, Name:'Academic Magnet High School'},
-        {SID: 4, Name:'Merrol Hyde Magnet School'},
-        {SID: 5, Name:'School for Advanced Studies (SAS)'}
-      ],
+      // highSchools:[
+      //   {SID: 1, Name:'Academic Magnet High School'},
+      //   {SID: 2, Name:'Thomas Jefferson High School for Science and Technology'},
+      //   {SID: 3, Name:'Academic Magnet High School'},
+      //   {SID: 4, Name:'Merrol Hyde Magnet School'},
+      //   {SID: 5, Name:'School for Advanced Studies (SAS)'}
+      // ],
+      highSchools:[],
+      universities:[],
       stdTests:[
         {TID: 1, Name:'ACT'},
         {TID: 2, Name:'SAT'},
@@ -135,10 +137,11 @@ export default {
         {AID: 2, Name:'Competition'},
         {AID: 3, Name:'Project'}
       ],
-      universities:[]
     }
   },
   created(){
+    this.getAllUniversities()
+    this.getAllHighSchools()
     axios.get(Config.URL,{ withCredentials: true }).then((response)=>{
         console.log(response.status)
         // return "auth"
@@ -193,13 +196,6 @@ export default {
         }).bind(this)
       )
     },
-    async getAllUniversities(){
-      SchoolService.getAllUniversities().then(
-        (universities=>{
-            this.$set(this, "universities", universities);
-          }).bind(this)
-      )
-    },
     
     async updateProfile(profileData){
       ProfileService.updateData(profileData)
@@ -246,7 +242,28 @@ export default {
     },
     validateForm: ()=>{
       // return this.isValidGPA(this.GPA)
-    }
+    },
+        async getSortedUniversityData(type, isDesc){
+      SchoolService.getSortedUniversities(type, isDesc).then(
+        (schools=>{
+            this.$set(this, "schools", schools);
+          }).bind(this)
+      )
+    },
+    async getAllUniversities(){
+      SchoolService.getAllUniversities().then(
+        (universities=>{
+            this.$set(this, "universities", universities);
+        }).bind(this)
+      )
+    },
+    async getAllHighSchools(){
+      SchoolService.getAllHighSchools().then(
+        (highSchools=>{
+            this.$set(this, "highSchools", highSchools);
+        }).bind(this)
+      )
+    },
   }
 }
 </script>

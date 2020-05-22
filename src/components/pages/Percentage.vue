@@ -28,7 +28,12 @@
       <option disabled value="">Please select one standarized test type</option>
       <option v-bind:key="stdTest.SID" v-for="stdTest in stdTests">{{stdTest.Name}}</option>
     </select>
-    <input v-model="studentData.university" placeholder="university">
+    <!-- <input v-model="studentData.university" placeholder="university"> -->
+    <p>select unniversity</p>
+    <select v-model="studentData.university">
+      <option disabled value="">Please select one university</option>
+      <option v-bind:key="university.SID" v-for="university in universities">{{university.Name}}</option>
+    </select>
     <button v-if="studentData.university!=''&&studentData.GPA!=''&&studentData.stdTestScore!=''" v-on:click="getPercentage(studentData)">submit for percentage</button>
     <div v-else>
       <button disabled=1>You can't submit</button>
@@ -78,6 +83,7 @@ export default {
         {AID: 2, Name:'Competition'},
         {AID: 3, Name:'Project'}
       ],
+      universities:[],
       selectedActivityType:"",
       total:"",
       conditional:"",
@@ -87,6 +93,9 @@ export default {
   },
   create(){
     this.getPercentage()
+  },
+  created(){
+    this.getAllUniversities()
   },
   methods:{
     getPercentage(studentData){
@@ -100,7 +109,13 @@ export default {
           }).bind(this)
       )
     },
-
+    async getAllUniversities(){
+      SchoolService.getAllUniversities().then(
+        (universities=>{
+            this.$set(this, "universities", universities);
+        }).bind(this)
+      )
+    },
     isNumber: (numString)=>{
       return !isNaN(parseFloat(numString))
     },

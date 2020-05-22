@@ -88,13 +88,14 @@ export default {
       checkedType:"gpa",
       checkedIsDesc:false,
       schools:[],  
-      highSchools:[
-        {SID: 1, Name:'Academic Magnet High School'},
-        {SID: 2, Name:'Thomas Jefferson High School for Science and Technology'},
-        {SID: 3, Name:'Academic Magnet High School'},
-        {SID: 4, Name:'Merrol Hyde Magnet School'},
-        {SID: 5, Name:'School for Advanced Studies (SAS)'}
-      ],
+      // highSchools:[
+      //   {SID: 1, Name:'Academic Magnet High School'},
+      //   {SID: 2, Name:'Thomas Jefferson High School for Science and Technology'},
+      //   {SID: 3, Name:'Academic Magnet High School'},
+      //   {SID: 4, Name:'Merrol Hyde Magnet School'},
+      //   {SID: 5, Name:'School for Advanced Studies (SAS)'}
+      // ],
+      highSchools:[],
       selectedHighSchool:"",
       stdTests:[
         {TID: 1, Name:'ACT'},
@@ -113,20 +114,13 @@ export default {
       
     }
   },
-  created(){
-    // axios.get(Config.URL,{ withCredentials: true }).then((response)=>{
-    //     console.log(response.status)
-    //     // return "auth"
-    // }).catch((error)=>{
-    //     console.log("err")
-    //     console.log(error.status)
-    //     this.$router.push({name:'Login'})
-    // })
-  },
   computed:{
     validForm:()=>{
         return this.validForm()
     }
+  },
+  created(){
+    this.getAllHighSchools()
   },
   create(){
     this.getSchoolData(),
@@ -148,6 +142,20 @@ export default {
           }).bind(this)
       )
     },
+    async getAllUniversities(){
+      SchoolService.getAllUniversities().then(
+        (universities=>{
+            this.$set(this, "universities", universities);
+        }).bind(this)
+      )
+  },
+  async getAllHighSchools(){
+      SchoolService.getAllHighSchools().then(
+        (highSchools=>{
+            this.$set(this, "highSchools", highSchools);
+        }).bind(this)
+      )
+  },
     isNumber: (numString)=>{
       return !isNaN(parseFloat(numString))
     },
