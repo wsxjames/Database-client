@@ -12,6 +12,9 @@ export default {
   async getSchools(gender, isFirstApplicant, gradYear, GPA, highSchool, stdTestType, stdTestScore, testLocation, testCity, activityType, compRank) {
     // console.log("test=",GPA)
     // let GPANumber=parseFloat(GPA)
+    let highSchoolStringTrimmed = (highSchool+"").trim()
+    // console.log("test="+universityStringTrimmed)
+    let highSchoolString=highSchoolStringTrimmed.split(' ').join('+')
     let isFirstApplicantValue=isFirstApplicant?1:0
     // let api="http://localhost:3000/schools?"
     let api=Config.URL+"schools?"
@@ -19,7 +22,7 @@ export default {
     if (isFirstApplicant!="") api+="&isFirstApplicant="+isFirstApplicantValue;
     if (gradYear!="") api+="&gradYear="+gradYear;
     if (GPA!="") api+="&GPA="+GPA;
-    if (highSchool!="") api+="&highSchool="+highSchool;
+    if (highSchool!="") api+="&highSchool="+highSchoolString;
     if (stdTestType!="") api+="&stdTestType="+stdTestType;
     if (stdTestScore!="") api+="&stdTestScore="+stdTestScore/100;
     if (testLocation!="") api+="&testLocation="+testLocation;
