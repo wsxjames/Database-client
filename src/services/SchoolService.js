@@ -21,7 +21,7 @@ export default {
     if (GPA!="") api+="&GPA="+GPA;
     if (highSchool!="") api+="&highSchool="+highSchool;
     if (stdTestType!="") api+="&stdTestType="+stdTestType;
-    if (stdTestScore!="") api+="&stdTestScore="+stdTestScore;
+    if (stdTestScore!="") api+="&stdTestScore="+stdTestScore/100;
     if (testLocation!="") api+="&testLocation="+testLocation;
     if (testCity!="") api+="&testCity="+testCity;
     if (activityType!="") api+="&activityType="+activityType;

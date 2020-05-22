@@ -127,7 +127,8 @@ export default {
       ],
       stdTests:[
         {TID: 1, Name:'ACT'},
-        {TID: 2, Name:'SAT'}
+        {TID: 2, Name:'SAT'},
+        {TID: 3, Name:'TOEFL'}
       ],
       activities:[
         {AID: 1, Name:'Volunteer'},
