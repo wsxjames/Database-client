@@ -6,15 +6,12 @@
     <label for="maleCheckBox">Male</label>
     <input type="radio" id="femaleCheckBox" value="female" v-model="studentData.gender">
     <label for="femaleCheckBox">Female</label>
-    <input type="radio" id="noPreferCheckBox" value="" v-model="studentData.gender">
-    <label for="noPreferCheckBox">Not preferred</label>
     <p>First applicant in university?</p>
     <input type="checkbox" id="checkbox" v-model="studentData.isFirstApplicant">
 
     <p>Graduation Year</p>
     <select v-model="studentData.gradYear">
       <option disabled value="">Please select one graduation year</option>
-      <option value="">Not preferred</option>
       <option value="2022">2022</option>
       <option value="2021">2021</option>
       <option value="2020">2020</option>
@@ -29,11 +26,14 @@
     <p v-if="!isValidScore(studentData.stdTestScore)" class="warning">Please enter an integer in [0,100]</p>
     <select v-model="studentData.stdTestType">
       <option disabled value="">Please select one standarized test type</option>
-      <option value="">Not preferred</option>
       <option v-bind:key="stdTest.SID" v-for="stdTest in stdTests">{{stdTest.Name}}</option>
     </select>
     <input v-model="studentData.university" placeholder="university">
-    <button v-on:click="getPercentage(studentData)">submit for percentage</button>
+    <button v-if="studentData.university!=''&&studentData.GPA!=''&&studentData.stdTestScore!=''" v-on:click="getPercentage(studentData)">submit for percentage</button>
+    <div v-else>
+      <button disabled=1>You can't submit</button>
+      <p class="warning">Please fill all options for result</p>
+    </div>
     <h2>result</h2>
     <p>total: {{total}}</p>
     <p>conditional:{{conditional}}</p>
@@ -49,11 +49,11 @@ export default {
     return{
       studentData:{
         GPA:"",
-        gender:"",
-        isFirstApplicant:"",
-        gradYear:"",
+        gender:"male",
+        isFirstApplicant:false,
+        gradYear:2022,
         stdTestScore:"",
-        stdTestType:"",
+        stdTestType:"TOEFL",
         university:""
       },
       activity:"",
